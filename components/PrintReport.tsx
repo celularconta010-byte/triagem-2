@@ -66,7 +66,7 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                     {/* Coluna 2: MEIO - Instrumentos e Naipes */}
                     <div className="print-column py-6">
                         <div className="bg-header-gray p-1 border-k font-bold text-center mb-2 uppercase text-[8pt]">
-                            Distribuição / Naipes
+                            Categoria
                         </div>
                         <table className="border-k mb-4 text-[8pt]">
                             <tbody>
@@ -78,9 +78,9 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                         </table>
 
                         <div className="bg-header-gray p-1 border-k font-bold text-center mb-2 uppercase text-[8pt]">
-                            Quantidades por Instrumento
+                            Instrumentos
                         </div>
-                        <div className="grid grid-cols-2 gap-x-2 gap-y-0.5">
+                        <div className="flex flex-col gap-y-0.5">
                             {[...registeredCordas, ...registeredMadeiras, ...registeredMetais, ...registeredOutros].map(inst => (
                                 <div key={inst} className="flex justify-between border-b border-gray-100 px-1">
                                     <span className="text-[6.5pt] leading-tight">{inst}</span>
