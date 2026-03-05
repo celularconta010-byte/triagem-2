@@ -102,31 +102,7 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                             Resumo
                         </div>
 
-                        {/* 1. Resumo Geral de Presença */}
-                        <table className="border-k mb-4">
-                            <thead>
-                                <tr className="bg-header-gray">
-                                    <th className="text-[8pt] uppercase">Resumo de Presença</th>
-                                    <th className="w-12 text-[8pt]">Qtd.</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td className="text-[8pt] font-medium">Músicos (Irmãos)</td>
-                                    <td className="text-center font-bold">{attendees.filter(a => a.role === Role.MUSICIAN).length}</td>
-                                </tr>
-                                <tr>
-                                    <td className="text-[8pt] font-medium">Organistas (Irmãs)</td>
-                                    <td className="text-center font-bold">{attendees.filter(a => a.role === Role.ORGANIST).length}</td>
-                                </tr>
-                                <tr className="bg-header-gray font-bold border-t-2 border-black">
-                                    <td className="text-[8pt] uppercase">Total Geral</td>
-                                    <td className="text-center">{attendees.length}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        {/* 2. Ministério em Atendimento */}
+                        {/* 1. Ministério em Atendimento */}
                         <table className="border-k mb-4">
                             <thead>
                                 <tr className="bg-header-gray">
@@ -151,7 +127,7 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                             </tbody>
                         </table>
 
-                        {/* 3. Cargos */}
+                        {/* 2. Cargos */}
                         <table className="border-k mb-4">
                             <thead>
                                 <tr className="bg-header-gray">
@@ -168,8 +144,47 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                             </tbody>
                         </table>
 
-                        {/* 3. Novos Grupos: Hinos e Cidades */}
+                        {/* 3. Orquestra */}
+                        <table className="border-k mb-4">
+                            <thead>
+                                <tr className="bg-header-gray">
+                                    <th className="text-[8pt] uppercase">Orquestra</th>
+                                    <th className="w-12 text-[8pt]">Qtd.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td className="text-[8pt] font-medium">Músicos</td>
+                                    <td className="text-center font-bold">{attendees.filter(a => a.role === Role.MUSICIAN).length}</td>
+                                </tr>
+                                <tr>
+                                    <td className="text-[8pt] font-medium">Organistas</td>
+                                    <td className="text-center font-bold">{attendees.filter(a => a.role === Role.ORGANIST).length}</td>
+                                </tr>
+                                <tr className="bg-header-gray font-bold border-t-2 border-black">
+                                    <td className="text-[8pt] uppercase">Total Geral</td>
+                                    <td className="text-center">{attendees.length}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        {/* 4. Cidades e Hinos */}
                         <div className="space-y-4">
+                            <table className="border-k">
+                                <thead>
+                                    <tr className="bg-header-gray">
+                                        <th className="text-[8pt]">Cidades Presentes</th>
+                                        <th className="w-12 text-[8pt]">Qtd.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td className="text-[8pt] font-medium">Total de Localidades</td>
+                                        <td className="text-center font-bold bg-header-gray">{uniqueCitiesCount}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
                             <table className="border-k">
                                 <thead>
                                     <tr className="bg-header-gray">
@@ -185,21 +200,6 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                                         <td className="text-center font-bold text-[9pt]">
                                             {eventMeta.hinos ? eventMeta.hinos.split(/[,;| ]+/).filter(h => h.trim() !== '').length : 0}
                                         </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <table className="border-k">
-                                <thead>
-                                    <tr className="bg-header-gray">
-                                        <th className="text-[8pt]">Cidades Presentes</th>
-                                        <th className="w-12 text-[8pt]">Qtd.</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td className="text-[8pt] font-medium">Total de Localidades</td>
-                                        <td className="text-center font-bold bg-header-gray">{uniqueCitiesCount}</td>
                                     </tr>
                                 </tbody>
                             </table>
