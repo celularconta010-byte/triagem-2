@@ -23,6 +23,7 @@ const App: React.FC = () => {
   const cityDropdownRef = useRef<HTMLDivElement>(null);
 
   const initialMeta: EventMetadata = {
+    eventTitle: 'Ensaio Regional',
     local: '',
     date: new Date().toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
     anciao: '',

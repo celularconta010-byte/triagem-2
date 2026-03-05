@@ -50,7 +50,7 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                                 <div className="font-bold text-[8pt] uppercase">Congregação Cristã no Brasil</div>
                             </div>
                             <div className="mt-8 text-center space-y-4">
-                                <div className="font-bold text-[14pt] uppercase underline decoration-2">Ensaio Regional</div>
+                                <div className="font-bold text-[14pt] uppercase underline decoration-2">{eventMeta.eventTitle || 'Ensaio Regional'}</div>
                                 <div className="text-[11pt] font-bold uppercase mt-4">Local: {eventMeta.local || '___________________'}</div>
                                 <div className="text-[11pt] font-bold uppercase">Ancião: {eventMeta.anciao || '___________________'}</div>
                                 <div className="text-[11pt] font-bold uppercase">Palavra: {eventMeta.palavra || '___________________'}</div>

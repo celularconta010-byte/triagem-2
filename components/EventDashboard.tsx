@@ -59,43 +59,52 @@ export const EventDashboard: React.FC<EventDashboardProps> = ({
         <h3 className="font-bold text-slate-700 border-b pb-2">Informações de Cabeçalho</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="md:col-span-2">
-            <label className="text-xs font-bold text-slate-500 mb-1 block">LOCAL DO ENSAIO</label>
-            <input 
-              value={eventMeta.local} 
-              onChange={e => onUpdateMeta({...eventMeta, local: e.target.value})} 
-              className="w-full p-3 border rounded-xl" 
+            <label className="text-xs font-bold text-slate-500 mb-1 block uppercase">Título da Reunião (Ex: Ensaio Regional, Reunião de Encarregados...)</label>
+            <input
+              value={eventMeta.eventTitle}
+              onChange={e => onUpdateMeta({ ...eventMeta, eventTitle: e.target.value })}
+              className="w-full p-3 border rounded-xl font-bold text-indigo-700 bg-indigo-50/30 focus:bg-white transition-colors"
+              placeholder="Digite o nome da reunião ou ensaio"
+            />
+          </div>
+          <div className="md:col-span-2">
+            <label className="text-xs font-bold text-slate-500 mb-1 block uppercase">Local do Evento</label>
+            <input
+              value={eventMeta.local}
+              onChange={e => onUpdateMeta({ ...eventMeta, local: e.target.value })}
+              className="w-full p-3 border rounded-xl"
               placeholder="Ex: Treze de Maio (Bairro Alto) - Central de Piracicaba/SP"
             />
           </div>
           <div>
             <label className="text-xs font-bold text-slate-500 mb-1 block">ANCIÃO ATENDENTE</label>
-            <input 
-              value={eventMeta.anciao} 
-              onChange={e => onUpdateMeta({...eventMeta, anciao: e.target.value})} 
+            <input
+              value={eventMeta.anciao}
+              onChange={e => onUpdateMeta({ ...eventMeta, anciao: e.target.value })}
               className="w-full p-3 border rounded-xl"
             />
           </div>
           <div>
             <label className="text-xs font-bold text-slate-500 mb-1 block">ENCARREGADOS REGIONAIS</label>
-            <input 
-              value={eventMeta.regionais} 
-              onChange={e => onUpdateMeta({...eventMeta, regionais: e.target.value})} 
+            <input
+              value={eventMeta.regionais}
+              onChange={e => onUpdateMeta({ ...eventMeta, regionais: e.target.value })}
               className="w-full p-3 border rounded-xl"
             />
           </div>
           <div className="md:col-span-2">
             <label className="text-xs font-bold text-slate-500 mb-1 block">PALAVRA (EX: SALMOS 148)</label>
-            <input 
-              value={eventMeta.palavra} 
-              onChange={e => onUpdateMeta({...eventMeta, palavra: e.target.value})} 
+            <input
+              value={eventMeta.palavra}
+              onChange={e => onUpdateMeta({ ...eventMeta, palavra: e.target.value })}
               className="w-full p-3 border rounded-xl"
             />
           </div>
           <div className="md:col-span-2">
             <label className="text-xs font-bold text-slate-500 mb-1 block">HINOS ENSAIADOS (EX: 267, 194, 247...)</label>
-            <textarea 
-              value={eventMeta.hinos} 
-              onChange={e => onUpdateMeta({...eventMeta, hinos: e.target.value})} 
+            <textarea
+              value={eventMeta.hinos}
+              onChange={e => onUpdateMeta({ ...eventMeta, hinos: e.target.value })}
               className="w-full p-3 border rounded-xl h-24"
             />
           </div>
@@ -108,15 +117,15 @@ export const EventDashboard: React.FC<EventDashboardProps> = ({
 
       <div className="bg-slate-900 text-slate-100 p-6 rounded-2xl shadow-xl relative overflow-hidden">
         <h3 className="font-bold text-indigo-400 mb-4 flex items-center gap-2">
-           <span className="text-xl">✨</span> Mensagem para o Ensaio
+          <span className="text-xl">✨</span> Mensagem para o Ensaio
         </h3>
         {reflection ? (
           <div className="text-sm leading-relaxed text-slate-300 italic mb-4">{reflection}</div>
         ) : (
           <p className="text-sm text-slate-400 italic mb-4">Gere um encorajamento baseado nos presentes.</p>
         )}
-        <Button 
-          onClick={handleGenerateReflection} 
+        <Button
+          onClick={handleGenerateReflection}
           disabled={isLoadingReflection || attendees.length === 0}
           className="bg-indigo-600 hover:bg-indigo-500 text-sm py-2 px-6"
         >

@@ -34,6 +34,7 @@ export interface Attendee {
 }
 
 export interface EventMetadata {
+  eventTitle: string;
   local: string;
   date: string;
   anciao: string;
