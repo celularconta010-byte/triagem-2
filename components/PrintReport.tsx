@@ -71,10 +71,10 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                     {/* Coluna 3: DIREITA - Estatísticas */}
                     <div className="print-column py-6">
                         <div className="bg-header-gray p-2 border-k font-bold text-center mb-4 uppercase text-[10pt]">
-                            Resumo do Evento
+                            Resumo
                         </div>
 
-                        {/* 1. Ministério em Atendimento (MOVIDO PARA O TOPO) */}
+                        {/* 1. Ministério em Atendimento */}
                         <table className="border-k mb-4">
                             <thead>
                                 <tr className="bg-header-gray">
@@ -89,22 +89,37 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                                 <tr><td className="text-[8pt] font-medium">Coop. de Jovens e Menores</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.COOPERADOR_JOVENS).length}</td></tr>
                                 <tr><td className="text-[8pt] font-medium">Examinadoras</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.EXAMINADORA).length}</td></tr>
                                 <tr><td className="text-[8pt] font-medium">Instrutoras</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.INSTRUTORA).length}</td></tr>
-                                <tr><td className="text-[8pt] font-medium">Organistas (Ministério)</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.ORGANISTA).length}</td></tr>
+                                <tr className="bg-slate-50 font-bold border-t-2 border-black">
+                                    <td className="text-[8pt] uppercase">Total do Ministério</td>
+                                    <td className="text-center">{
+                                        attendees.filter(a => [
+                                            Ministry.ANCIAO, Ministry.DIACONO, Ministry.COOPERADOR_OFICIO,
+                                            Ministry.COOPERADOR_JOVENS, Ministry.EXAMINADORA, Ministry.INSTRUTORA
+                                        ].includes(a.ministry)).length
+                                    }</td>
+                                </tr>
                             </tbody>
                         </table>
 
-                        {/* 2. Resumo de Presença */}
+                        {/* 2. Resumo da Orquestra */}
                         <table className="border-k mb-4">
                             <thead>
                                 <tr className="bg-header-gray">
-                                    <th className="text-[8pt]">Resumo de Presença</th>
+                                    <th className="text-[8pt]">Resumo da Orquestra</th>
                                     <th className="w-12 text-[8pt]">Qtd.</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr><td className="text-[9pt] font-bold">Encarregados</td><td className="text-center font-bold">{attendees.filter(a => a.level === Level.REGIONAL || a.level === Level.LOCAL).length}</td></tr>
                                 <tr><td className="text-[9pt] font-bold">Músicos</td><td className="text-center font-bold bg-summary-blue">{musicosCount}</td></tr>
                                 <tr><td className="text-[9pt] font-bold">Organistas</td><td className="text-center font-bold bg-summary-orange">{organistasCount}</td></tr>
-                                <tr className="bg-summary-yellow font-bold"><td className="uppercase text-[9pt]">Total Geral</td><td className="text-center">{totalGeral}</td></tr>
+                                <tr className="bg-summary-yellow font-bold border-t-2 border-black">
+                                    <td className="uppercase text-[9pt]">Total da Orquestra</td>
+                                    <td className="text-center">{
+                                        (attendees.filter(a => a.level === Level.REGIONAL || a.level === Level.LOCAL).length) +
+                                        musicosCount + organistasCount
+                                    }</td>
+                                </tr>
                             </tbody>
                         </table>
 
