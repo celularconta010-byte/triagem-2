@@ -154,15 +154,10 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center">
       <style>{`
-        /* Cores de Fundo (Exato para Impressão) */
-        .bg-cordas { background-color: #f6ad55 !important; }
-        .bg-madeiras { background-color: #63b3ed !important; }
-        .bg-metais { background-color: #68d391 !important; }
-        .bg-outros { background-color: #cbd5e0 !important; }
+        /* Cores de Fundo (Grayscale) */
+        .bg-gray-light { background-color: #f7fafc !important; }
         .bg-header-gray { background-color: #edf2f7 !important; }
-        .bg-summary-orange { background-color: #fbd38d !important; }
-        .bg-summary-blue { background-color: #90cdf4 !important; }
-        .bg-summary-yellow { background-color: #fefcbf !important; }
+        .bg-summary-gray { background-color: #f7fafc !important; }
         
         /* Utilitários de Borda */
         .border-k { border: 1px solid black !important; }
@@ -310,16 +305,6 @@ const App: React.FC = () => {
               {selectedRole === Role.MUSICIAN && (
                 <>
                   <div>
-                    <label className="block text-xs font-bold text-slate-500 mb-2 uppercase">Cargo</label>
-                    <select
-                      value={level}
-                      onChange={(e) => setLevel(e.target.value as Level)}
-                      className="w-full p-4 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none appearance-none"
-                    >
-                      {Object.values(Level).map(l => <option key={l} value={l}>{l}</option>)}
-                    </select>
-                  </div>
-                  <div>
                     <label className="block text-xs font-bold text-slate-500 mb-2 uppercase">Instrumento</label>
                     <select
                       value={instrument}
@@ -328,6 +313,16 @@ const App: React.FC = () => {
                     >
                       <option value="">Selecione o Instrumento</option>
                       {INSTRUMENTS.map(i => <option key={i} value={i}>{i}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-500 mb-2 uppercase">Cargo</label>
+                    <select
+                      value={level}
+                      onChange={(e) => setLevel(e.target.value as Level)}
+                      className="w-full p-4 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none appearance-none"
+                    >
+                      {Object.values(Level).map(l => <option key={l} value={l}>{l}</option>)}
                     </select>
                   </div>
                 </>

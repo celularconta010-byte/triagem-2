@@ -25,7 +25,6 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
     const registeredCordas = INSTRUMENT_GROUPS.Cordas.filter(i => getInstrumentCount(i) > 0);
     const registeredMadeiras = INSTRUMENT_GROUPS.Madeiras.filter(i => getInstrumentCount(i) > 0);
     const registeredMetais = INSTRUMENT_GROUPS.Metais.filter(i => getInstrumentCount(i) > 0);
-    const registeredOutros = INSTRUMENT_GROUPS.Outros.filter(i => getInstrumentCount(i) > 0);
 
     return (
         <div className="print-view bg-white min-h-screen text-black">
@@ -66,34 +65,33 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                     {/* Coluna 2: MEIO - Instrumentos e Naipes */}
                     <div className="print-column py-6">
                         <div className="bg-header-gray p-1 border-k font-bold text-center mb-2 uppercase text-[8pt]">
-                            Categoria
-                        </div>
-                        <table className="border-k mb-4 text-[8pt]">
-                            <tbody>
-                                <tr><td className="p-1">Cordas</td><td className="text-center font-bold bg-cordas">{getNaipeCount('Cordas')}</td></tr>
-                                <tr><td className="p-1">Madeiras</td><td className="text-center font-bold bg-madeiras">{getNaipeCount('Madeiras')}</td></tr>
-                                <tr><td className="p-1">Metais</td><td className="text-center font-bold bg-metais">{getNaipeCount('Metais')}</td></tr>
-                                <tr><td className="p-1">Outros</td><td className="text-center font-bold bg-outros">{getNaipeCount('Outros')}</td></tr>
-                            </tbody>
-                        </table>
-
-                        <div className="bg-header-gray p-1 border-k font-bold text-center mb-2 uppercase text-[8pt]">
                             Instrumentos
                         </div>
                         <table className="border-k text-[8pt] mb-4">
                             <thead>
-                                <tr className="bg-gray-50">
+                                <tr className="bg-header-gray">
                                     <th className="p-1 text-[7pt]">Nome</th>
                                     <th className="w-10 text-center p-1 text-[7pt]">Qtd.</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {[...registeredCordas, ...registeredMadeiras, ...registeredMetais, ...registeredOutros].map(inst => (
+                                {[...registeredCordas, ...registeredMadeiras, ...registeredMetais].map(inst => (
                                     <tr key={inst} className="border-b border-gray-200">
                                         <td className="p-1 uppercase text-[6.5pt]">{inst}</td>
-                                        <td className="text-center font-bold text-[7.5pt] p-1 bg-slate-50">{getInstrumentCount(inst)}</td>
+                                        <td className="text-center font-bold text-[7.5pt] p-1 bg-header-gray">{getInstrumentCount(inst)}</td>
                                     </tr>
                                 ))}
+                            </tbody>
+                        </table>
+
+                        <div className="bg-header-gray p-1 border-k font-bold text-center mb-2 uppercase text-[8pt]">
+                            Categoria
+                        </div>
+                        <table className="border-k mb-4 text-[8pt]">
+                            <tbody>
+                                <tr><td className="p-1">Cordas</td><td className="text-center font-bold bg-header-gray">{getNaipeCount('Cordas')}</td></tr>
+                                <tr><td className="p-1">Madeiras</td><td className="text-center font-bold bg-header-gray">{getNaipeCount('Madeiras')}</td></tr>
+                                <tr><td className="p-1">Metais</td><td className="text-center font-bold bg-header-gray">{getNaipeCount('Metais')}</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -117,7 +115,7 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                                 <tr><td className="text-[8pt] font-medium">Diáconos</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.DIACONO).length}</td></tr>
                                 <tr><td className="text-[8pt] font-medium">Coop. do Ofício Ministerial</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.COOPERADOR_OFICIO).length}</td></tr>
                                 <tr><td className="text-[8pt] font-medium">Coop. de Jovens e Menores</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.COOPERADOR_JOVENS).length}</td></tr>
-                                <tr className="bg-slate-50 font-bold border-t-2 border-black">
+                                <tr className="bg-header-gray font-bold border-t-2 border-black">
                                     <td className="text-[8pt] uppercase">Total do Ministério</td>
                                     <td className="text-center">{
                                         attendees.filter(a => [
@@ -146,7 +144,7 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                                 <tr><td className="text-[8pt] font-medium">Músico</td><td className="text-center font-bold">{attendees.filter(a => a.role === Role.MUSICIAN && ![Level.REGIONAL, Level.LOCAL, Level.INSTRUCTOR].includes(a.level)).length}</td></tr>
                                 <tr><td className="text-[8pt] font-medium">Organista</td><td className="text-center font-bold">{attendees.filter(a => a.role === Role.ORGANIST && ![Ministry.EXAMINADORA, Ministry.INSTRUTORA].includes(a.ministry)).length}</td></tr>
 
-                                <tr className="bg-summary-yellow font-bold border-t-2 border-black">
+                                <tr className="bg-header-gray font-bold border-t-2 border-black">
                                     <td className="uppercase text-[8pt]">Total da Orquestra</td>
                                     <td className="text-center">{
                                         attendees.filter(a => a.role === Role.MUSICIAN || a.role === Role.ORGANIST).length
@@ -186,7 +184,7 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                                 <tbody>
                                     <tr>
                                         <td className="text-[8pt] font-medium">Total de Localidades</td>
-                                        <td className="text-center font-bold bg-slate-50">{uniqueCitiesCount}</td>
+                                        <td className="text-center font-bold bg-header-gray">{uniqueCitiesCount}</td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -47,20 +47,19 @@ export const INSTRUMENT_GROUPS = {
   Madeiras: [
     'Flauta', 'Oboé', 'Corne inglês', 'Fagote',
     'Clarinete', 'Clarinete Alto', 'Clarinete Baixo',
-    'Sax Sopranino', 'Sax Soprano', 'Sax Alto', 'Sax Tenor', 'Sax Barítono', 'Sax Baixo'
+    'Sax Sopranino', 'Sax Soprano', 'Sax Alto', 'Sax Tenor', 'Sax Barítono', 'Sax Baixo',
+    'Acordeon'
   ],
   Metais: [
     'Cornet', 'Trompete', 'Flugelhorn', 'Trompa', 'Melofone',
     'Trombonito', 'Trombone', 'Eufônio', 'Barítono', 'Tuba'
-  ],
-  Outros: ['Acordeon']
+  ]
 };
 
 export const INSTRUMENTS = [
   ...INSTRUMENT_GROUPS.Cordas,
   ...INSTRUMENT_GROUPS.Madeiras,
-  ...INSTRUMENT_GROUPS.Metais,
-  ...INSTRUMENT_GROUPS.Outros
+  ...INSTRUMENT_GROUPS.Metais
 ];
 
 export type ViewState = 'landing' | 'form' | 'dashboard' | 'print';
