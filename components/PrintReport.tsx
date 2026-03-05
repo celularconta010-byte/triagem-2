@@ -87,14 +87,12 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                                 <tr><td className="text-[8pt] font-medium">Diáconos</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.DIACONO).length}</td></tr>
                                 <tr><td className="text-[8pt] font-medium">Coop. do Ofício Ministerial</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.COOPERADOR_OFICIO).length}</td></tr>
                                 <tr><td className="text-[8pt] font-medium">Coop. de Jovens e Menores</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.COOPERADOR_JOVENS).length}</td></tr>
-                                <tr><td className="text-[8pt] font-medium">Examinadoras</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.EXAMINADORA).length}</td></tr>
-                                <tr><td className="text-[8pt] font-medium">Instrutoras</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.INSTRUTORA).length}</td></tr>
                                 <tr className="bg-slate-50 font-bold border-t-2 border-black">
                                     <td className="text-[8pt] uppercase">Total do Ministério</td>
                                     <td className="text-center">{
                                         attendees.filter(a => [
                                             Ministry.ANCIAO, Ministry.DIACONO, Ministry.COOPERADOR_OFICIO,
-                                            Ministry.COOPERADOR_JOVENS, Ministry.EXAMINADORA, Ministry.INSTRUTORA
+                                            Ministry.COOPERADOR_JOVENS
                                         ].includes(a.ministry)).length
                                     }</td>
                                 </tr>
@@ -110,14 +108,18 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr><td className="text-[9pt] font-bold">Encarregados</td><td className="text-center font-bold">{attendees.filter(a => a.level === Level.REGIONAL || a.level === Level.LOCAL).length}</td></tr>
-                                <tr><td className="text-[9pt] font-bold">Músicos</td><td className="text-center font-bold bg-summary-blue">{musicosCount}</td></tr>
-                                <tr><td className="text-[9pt] font-bold">Organistas</td><td className="text-center font-bold bg-summary-orange">{organistasCount}</td></tr>
+                                <tr><td className="text-[8pt] font-medium">Encarregado Regional</td><td className="text-center font-bold">{attendees.filter(a => a.level === Level.REGIONAL).length}</td></tr>
+                                <tr><td className="text-[8pt] font-medium">Encarregado Local</td><td className="text-center font-bold">{attendees.filter(a => a.level === Level.LOCAL).length}</td></tr>
+                                <tr><td className="text-[8pt] font-medium">Examinadora</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.EXAMINADORA).length}</td></tr>
+                                <tr><td className="text-[8pt] font-medium">Instrutor</td><td className="text-center font-bold">{attendees.filter(a => a.level === Level.INSTRUCTOR).length}</td></tr>
+                                <tr><td className="text-[8pt] font-medium">Instrutora</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.INSTRUTORA).length}</td></tr>
+                                <tr><td className="text-[8pt] font-medium">Músico</td><td className="text-center font-bold">{attendees.filter(a => a.role === Role.MUSICIAN && ![Level.REGIONAL, Level.LOCAL, Level.INSTRUCTOR].includes(a.level)).length}</td></tr>
+                                <tr><td className="text-[8pt] font-medium">Organista</td><td className="text-center font-bold">{attendees.filter(a => a.role === Role.ORGANIST && ![Ministry.EXAMINADORA, Ministry.INSTRUTORA].includes(a.ministry)).length}</td></tr>
+
                                 <tr className="bg-summary-yellow font-bold border-t-2 border-black">
-                                    <td className="uppercase text-[9pt]">Total da Orquestra</td>
+                                    <td className="uppercase text-[8pt]">Total da Orquestra</td>
                                     <td className="text-center">{
-                                        (attendees.filter(a => a.level === Level.REGIONAL || a.level === Level.LOCAL).length) +
-                                        musicosCount + organistasCount
+                                        attendees.filter(a => a.role === Role.MUSICIAN || a.role === Role.ORGANIST).length
                                     }</td>
                                 </tr>
                             </tbody>
