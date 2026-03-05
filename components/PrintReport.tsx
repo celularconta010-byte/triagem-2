@@ -78,7 +78,7 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                         <table className="border-k mb-4">
                             <thead>
                                 <tr className="bg-header-gray">
-                                    <th className="text-[8pt]">Ministério em Atendimento</th>
+                                    <th className="text-[8pt]">Ministério</th>
                                     <th className="w-12 text-[8pt]">Qtd.</th>
                                 </tr>
                             </thead>
