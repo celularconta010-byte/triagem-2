@@ -24,7 +24,7 @@ const App: React.FC = () => {
 
   const initialMeta: EventMetadata = {
     local: '',
-    date: new Date().toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+    date: new Date().toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
     anciao: '',
     regionais: '',
     palavra: '',
@@ -139,7 +139,7 @@ const App: React.FC = () => {
       setAttendees([]);
       setEventMeta({
         ...initialMeta,
-        date: new Date().toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+        date: new Date().toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
       });
       setReflection('');
       setView('landing');

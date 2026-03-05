@@ -72,6 +72,26 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                             Resumo do Evento
                         </div>
 
+                        {/* 1. Ministério em Atendimento (MOVIDO PARA O TOPO) */}
+                        <table className="border-k mb-4">
+                            <thead>
+                                <tr className="bg-header-gray">
+                                    <th className="text-[8pt]">Ministério em Atendimento</th>
+                                    <th className="w-12 text-[8pt]">Qtd.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td className="text-[8pt] font-medium">Anciães</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.ANCIAO).length}</td></tr>
+                                <tr><td className="text-[8pt] font-medium">Diáconos</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.DIACONO).length}</td></tr>
+                                <tr><td className="text-[8pt] font-medium">Coop. do Ofício Ministerial</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.COOPERADOR_OFICIO).length}</td></tr>
+                                <tr><td className="text-[8pt] font-medium">Coop. de Jovens e Menores</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.COOPERADOR_JOVENS).length}</td></tr>
+                                <tr><td className="text-[8pt] font-medium">Examinadoras</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.EXAMINADORA).length}</td></tr>
+                                <tr><td className="text-[8pt] font-medium">Instrutoras</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.INSTRUTORA).length}</td></tr>
+                                <tr><td className="text-[8pt] font-medium">Organistas (Ministério)</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.ORGANISTA).length}</td></tr>
+                            </tbody>
+                        </table>
+
+                        {/* 2. Resumo de Presença */}
                         <table className="border-k mb-4">
                             <thead>
                                 <tr className="bg-header-gray">
@@ -86,6 +106,7 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                             </tbody>
                         </table>
 
+                        {/* 3. Distribuição / Naipes */}
                         <table className="border-k mb-4">
                             <thead>
                                 <tr className="bg-header-gray">
@@ -98,20 +119,6 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                                 <tr><td className="text-[9pt]">Madeiras</td><td className="text-center font-bold bg-madeiras">{getNaipeCount('Madeiras')}</td></tr>
                                 <tr><td className="text-[9pt]">Metais</td><td className="text-center font-bold bg-metais">{getNaipeCount('Metais')}</td></tr>
                                 <tr><td className="text-[9pt]">Outros</td><td className="text-center font-bold bg-outros">{getNaipeCount('Outros')}</td></tr>
-                            </tbody>
-                        </table>
-
-                        <table className="border-k">
-                            <thead>
-                                <tr className="bg-header-gray">
-                                    <th className="text-[8pt]">Ministério em Atendimento</th>
-                                    <th className="w-12 text-[8pt]">Qtd.</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td className="text-[8pt]">Anciões / Diáconos</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.ANCIAO || a.ministry === Ministry.DIACONO).length}</td></tr>
-                                <tr><td className="text-[8pt]">Cooperadores</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.COOPERADOR_OFICIO || a.ministry === Ministry.COOPERADOR_JOVENS).length}</td></tr>
-                                <tr><td className="text-[8pt]">Enc. Regionais / Locais</td><td className="text-center font-bold">{attendees.filter(a => a.level === Level.REGIONAL || a.level === Level.LOCAL).length}</td></tr>
                             </tbody>
                         </table>
 
