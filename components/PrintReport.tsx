@@ -102,7 +102,31 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                             Resumo
                         </div>
 
-                        {/* 1. Ministério em Atendimento */}
+                        {/* 1. Resumo Geral de Presença */}
+                        <table className="border-k mb-4">
+                            <thead>
+                                <tr className="bg-header-gray">
+                                    <th className="text-[8pt] uppercase">Resumo de Presença</th>
+                                    <th className="w-12 text-[8pt]">Qtd.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td className="text-[8pt] font-medium">Músicos (Irmãos)</td>
+                                    <td className="text-center font-bold">{attendees.filter(a => a.role === Role.MUSICIAN).length}</td>
+                                </tr>
+                                <tr>
+                                    <td className="text-[8pt] font-medium">Organistas (Irmãs)</td>
+                                    <td className="text-center font-bold">{attendees.filter(a => a.role === Role.ORGANIST).length}</td>
+                                </tr>
+                                <tr className="bg-header-gray font-bold border-t-2 border-black">
+                                    <td className="text-[8pt] uppercase">Total Geral</td>
+                                    <td className="text-center">{attendees.length}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        {/* 2. Ministério em Atendimento */}
                         <table className="border-k mb-4">
                             <thead>
                                 <tr className="bg-header-gray">
@@ -127,11 +151,11 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                             </tbody>
                         </table>
 
-                        {/* 2. Resumo da Orquestra */}
+                        {/* 3. Cargos */}
                         <table className="border-k mb-4">
                             <thead>
                                 <tr className="bg-header-gray">
-                                    <th className="text-[8pt]">Resumo da Orquestra</th>
+                                    <th className="text-[8pt]">Cargos</th>
                                     <th className="w-12 text-[8pt]">Qtd.</th>
                                 </tr>
                             </thead>
@@ -141,15 +165,6 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                                 <tr><td className="text-[8pt] font-medium">Examinadora</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.EXAMINADORA).length}</td></tr>
                                 <tr><td className="text-[8pt] font-medium">Instrutor</td><td className="text-center font-bold">{attendees.filter(a => a.level === Level.INSTRUCTOR).length}</td></tr>
                                 <tr><td className="text-[8pt] font-medium">Instrutora</td><td className="text-center font-bold">{attendees.filter(a => a.ministry === Ministry.INSTRUTORA).length}</td></tr>
-                                <tr><td className="text-[8pt] font-medium">Músico</td><td className="text-center font-bold">{attendees.filter(a => a.role === Role.MUSICIAN && ![Level.REGIONAL, Level.LOCAL, Level.INSTRUCTOR].includes(a.level)).length}</td></tr>
-                                <tr><td className="text-[8pt] font-medium">Organista</td><td className="text-center font-bold">{attendees.filter(a => a.role === Role.ORGANIST && ![Ministry.EXAMINADORA, Ministry.INSTRUTORA].includes(a.ministry)).length}</td></tr>
-
-                                <tr className="bg-header-gray font-bold border-t-2 border-black">
-                                    <td className="uppercase text-[8pt]">Total da Orquestra</td>
-                                    <td className="text-center">{
-                                        attendees.filter(a => a.role === Role.MUSICIAN || a.role === Role.ORGANIST).length
-                                    }</td>
-                                </tr>
                             </tbody>
                         </table>
 
