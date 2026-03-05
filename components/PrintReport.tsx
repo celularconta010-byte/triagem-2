@@ -55,7 +55,9 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                                 <div className="text-[11pt] font-bold uppercase mt-4">Local: {eventMeta.local || '___________________'}</div>
                                 <div className="text-[11pt] font-bold uppercase">Ancião: {eventMeta.anciao || '___________________'}</div>
                                 <div className="text-[11pt] font-bold uppercase">Palavra: {eventMeta.palavra || '___________________'}</div>
-                                <div className="text-[11pt] font-bold uppercase">{eventMeta.date}</div>
+                                <div className="text-[11pt] font-bold uppercase">
+                                    {eventMeta.date.split(/ às| at/i)[0]}
+                                </div>
                             </div>
                         </div>
                         <div className="flex-1 border-k border-dashed mt-4"></div>
