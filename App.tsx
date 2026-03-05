@@ -154,64 +154,72 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center">
       <style>{`
+        /* Cores de Fundo (Exato para Impressão) */
+        .bg-cordas { background-color: #f6ad55 !important; }
+        .bg-madeiras { background-color: #63b3ed !important; }
+        .bg-metais { background-color: #68d391 !important; }
+        .bg-outros { background-color: #cbd5e0 !important; }
+        .bg-header-gray { background-color: #edf2f7 !important; }
+        .bg-summary-orange { background-color: #fbd38d !important; }
+        .bg-summary-blue { background-color: #90cdf4 !important; }
+        .bg-summary-yellow { background-color: #fefcbf !important; }
+        
+        /* Utilitários de Borda */
+        .border-k { border: 1px solid black !important; }
+        .border-k-2 { border: 2px solid black !important; }
+        .border-k-double { border: 4px double black !important; }
+
+        /* Reset Geral para Impressão e Preview */
+        * { box-sizing: border-box !important; }
+
+        /* Container Principal do Relatório (Simula folha A4) */
+        .print-view {
+          background: white;
+          color: black;
+          font-family: "Times New Roman", serif;
+          margin: 0 auto;
+          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+          border: 1px solid #e2e8f0;
+          width: 29.7cm;
+          height: 21cm;
+          overflow: hidden;
+        }
+
+        .print-columns-wrapper {
+          display: flex !important;
+          flex-direction: row !important;
+          flex-wrap: nowrap !important;
+          width: 100% !important;
+          height: 100% !important;
+          background: white;
+        }
+
+        .print-column {
+          flex: 0 0 33.33% !important;
+          height: 100% !important;
+          padding: 1cm 0.6cm;
+          display: flex;
+          flex-direction: column;
+          border-right: 1px solid black !important;
+        }
+
+        .print-column:last-child {
+          border-right: none !important;
+        }
+
+        table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+        th, td { border: 1px solid black; padding: 4px 6px; font-size: 8.5pt; color: black; line-height: 1.2; }
+        th { font-weight: bold; text-align: left; }
+
         @media print {
           @page { margin: 0; size: A4 landscape; }
-          body { background: white !important; font-family: "Times New Roman", serif !important; color: black !important; margin: 0; padding: 0; }
+          body { background: white !important; margin: 0; padding: 0; }
           .no-print { display: none !important; }
-          .print-only { display: block !important; }
-          
-          .border-k { border: 1px solid black !important; }
-          .border-k-2 { border: 2px solid black !important; }
-          .border-k-double { border: 4px double black !important; }
-          
-          * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box !important; }
-
-          /* Layout para 3 colunas iguais - Sempre horizontal */
-          .print-view {
-            width: 100%;
-            background: white;
-            color: black;
-          }
-          
-          .print-columns-wrapper {
-            display: flex !important;
-            flex-direction: row !important;
-            flex-wrap: nowrap !important;
-            width: 29.7cm !important;
-            height: 21cm !important;
-            max-width: none !important;
-            overflow: hidden;
-            background: white;
-            margin: 0 auto;
-          }
-          
-          .print-column {
-            flex: 0 0 33.33% !important; /* Força exatamente um terço */
-            height: 21cm !important;
-            padding: 1cm 0.5cm;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            border-right: 1px solid black !important;
-          }
-          
-          .print-column:last-child {
-            border-right: none !important;
-          }
-
-          .bg-cordas { background-color: #f6ad55 !important; }
-          .bg-madeiras { background-color: #63b3ed !important; }
-          .bg-metais { background-color: #68d391 !important; }
-          .bg-outros { background-color: #cbd5e0 !important; }
-          .bg-header-gray { background-color: #edf2f7 !important; }
-          .bg-summary-orange { background-color: #fbd38d !important; }
-          .bg-summary-blue { background-color: #90cdf4 !important; }
-          .bg-summary-yellow { background-color: #fefcbf !important; }
-
-          table { width: 100%; border-collapse: collapse; margin-bottom: 2px; }
-          th, td { border: 1px solid black; padding: 2px 4px; font-size: 8pt; color: black !important; }
+          .print-view { box-shadow: none !important; border: none !important; margin: 0 !important; width: 29.7cm !important; height: 21cm !important; }
+          * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
         .print-only { display: none; }
+        @media print { .print-only { display: block !important; } }
       `}</style>
 
       {/* Main UI */}
