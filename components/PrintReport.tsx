@@ -80,14 +80,22 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                         <div className="bg-header-gray p-1 border-k font-bold text-center mb-2 uppercase text-[8pt]">
                             Instrumentos
                         </div>
-                        <div className="flex flex-col gap-y-0.5">
-                            {[...registeredCordas, ...registeredMadeiras, ...registeredMetais, ...registeredOutros].map(inst => (
-                                <div key={inst} className="flex justify-between border-b border-gray-100 px-1">
-                                    <span className="text-[6.5pt] leading-tight">{inst}</span>
-                                    <span className="text-[6.5pt] font-bold">{getInstrumentCount(inst)}</span>
-                                </div>
-                            ))}
-                        </div>
+                        <table className="border-k text-[8pt] mb-4">
+                            <thead>
+                                <tr className="bg-gray-50">
+                                    <th className="p-1 text-[7pt]">Nome</th>
+                                    <th className="w-10 text-center p-1 text-[7pt]">Qtd.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {[...registeredCordas, ...registeredMadeiras, ...registeredMetais, ...registeredOutros].map(inst => (
+                                    <tr key={inst} className="border-b border-gray-200">
+                                        <td className="p-1 uppercase text-[6.5pt]">{inst}</td>
+                                        <td className="text-center font-bold text-[7.5pt] p-1 bg-slate-50">{getInstrumentCount(inst)}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
 
                     {/* Coluna 3: DIREITA - Estatísticas */}
