@@ -284,7 +284,9 @@ const App: React.FC = () => {
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-xs font-bold text-slate-500 mb-2 uppercase">Cargo / Ministério</label>
+                <label className="block text-xs font-bold text-slate-500 mb-2 uppercase">
+                  {selectedRole === Role.ORGANIST ? 'Cargo' : 'Ministério'}
+                </label>
                 <select
                   value={ministry}
                   onChange={(e) => setMinistry(e.target.value as Ministry)}
