@@ -20,6 +20,7 @@ export const EventDashboard: React.FC<EventDashboardProps> = ({
   onGenerateReport,
   onBack
 }) => {
+  const uniqueCities = Array.from(new Set(attendees.map(a => a.city))).sort();
 
   const exportData = () => {
     const data = {
@@ -101,6 +102,26 @@ export const EventDashboard: React.FC<EventDashboardProps> = ({
         <div className="pt-4 border-t flex flex-col sm:flex-row gap-3">
           <Button onClick={onGenerateReport} className="flex-1">GERAR RELATÓRIO OFICIAL</Button>
         </div>
+      </div>
+
+      <div className="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 shadow-sm space-y-4">
+        <div className="flex items-center gap-2 text-emerald-700">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+          <h3 className="font-bold uppercase text-sm tracking-wider">Cidades Presentes ({uniqueCities.length})</h3>
+        </div>
+
+        {uniqueCities.length > 0 ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            {uniqueCities.map(city => (
+              <div key={city} className="bg-white px-3 py-2 rounded-lg border border-emerald-50 text-emerald-800 text-sm font-medium shadow-sm flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                {city}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-emerald-600/60 text-sm italic italic">Nenhuma cidade registrada ainda.</p>
+        )}
       </div>
 
 
