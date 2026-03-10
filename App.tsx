@@ -257,7 +257,7 @@ const App: React.FC = () => {
           <div className="bg-white p-3 rounded-full shadow-sm mb-4">
             <span className="text-3xl">🎺</span>
           </div>
-          <h1 className="title-font text-3xl font-bold text-slate-800">Triage Musical</h1>
+          <h1 className="title-font text-3xl font-bold text-slate-800">Triagem Musical</h1>
         </header>
       )}
 
