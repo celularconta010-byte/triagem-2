@@ -5,7 +5,9 @@ import { BRAZILIAN_CITIES } from './services/cities';
 import { EventDashboard } from './components/EventDashboard';
 import { PrintReport } from './components/PrintReport';
 import { CityPrint } from './components/CityPrint';
-import { fetchAttendees, addAttendee, clearAllAttendees, fetchEventMetadata, saveEventMetadata, clearEventMetadata } from './services/supabase';
+import { CitiesList } from './components/CitiesList';
+import { AttendeesList } from './components/AttendeesList';
+import { fetchAttendees, addAttendee, updateAttendee, deleteAttendee, clearAllAttendees, fetchEventMetadata, saveEventMetadata, clearEventMetadata } from './services/supabase';
 
 const App: React.FC = () => {
   const [view, setView] = useState<ViewState>('landing');
@@ -16,6 +18,8 @@ const App: React.FC = () => {
   const [level, setLevel] = useState<Level>(Level.MUSICIAN);
   const [city, setCity] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
+  const [editingAttendee, setEditingAttendee] = useState<Attendee | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Custom Dropdown States for City
   const [isCityDropdownOpen, setIsCityDropdownOpen] = useState(false);
@@ -98,20 +102,27 @@ const App: React.FC = () => {
     if (!city) return;
 
     const newAttendee: Attendee = {
-      id: crypto.randomUUID(),
+      id: editingAttendee ? editingAttendee.id : crypto.randomUUID(),
       ministry,
       role: selectedRole!,
       instrument: instrument || (selectedRole === Role.ORGANIST ? 'Órgão' : 'Não informado'),
       level: selectedRole === Role.ORGANIST ? Level.MUSICIAN : level,
       city,
-      timestamp: Date.now(),
+      timestamp: editingAttendee ? editingAttendee.timestamp : Date.now(),
     };
 
-    // Adicionar ao Supabase
-    const success = await addAttendee(newAttendee);
+    // Adicionar ou Atualizar no Supabase
+    const success = editingAttendee
+      ? await updateAttendee(newAttendee)
+      : await addAttendee(newAttendee);
 
     if (success) {
-      setAttendees(prev => [newAttendee, ...prev]);
+      if (editingAttendee) {
+        setAttendees(prev => prev.map(a => a.id === newAttendee.id ? newAttendee : a));
+      } else {
+        setAttendees(prev => [newAttendee, ...prev]);
+      }
+
       setShowSuccess(true);
 
       // Reset Completo do formulário após registro
@@ -120,29 +131,52 @@ const App: React.FC = () => {
       setMinistry(Ministry.NONE);
       setInstrument(selectedRole === Role.ORGANIST ? 'Órgão' : '');
       setLevel(Level.NONE);
+      setEditingAttendee(null);
 
-      setTimeout(() => setShowSuccess(false), 2000);
+      setTimeout(() => {
+        setShowSuccess(false);
+        if (editingAttendee) setView('dashboard');
+      }, 2000);
     } else {
       alert('Erro ao salvar participante. Tente novamente.');
     }
   };
 
-
   const clearAllData = async () => {
     if (confirm('ATENÇÃO: Isso apagará TODOS os registros para iniciar um NOVO evento. Deseja continuar?')) {
-      // Limpar dados do Supabase
       await Promise.all([
         clearAllAttendees(),
         clearEventMetadata()
       ]);
 
-      // Limpar estado local
       setAttendees([]);
       setEventMeta({
         ...initialMeta,
         date: new Date().toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
       });
       setView('landing');
+    }
+  };
+
+  const handleEditAttendee = (attendee: Attendee) => {
+    setEditingAttendee(attendee);
+    setSelectedRole(attendee.role);
+    setMinistry(attendee.ministry);
+    setInstrument(attendee.instrument);
+    setLevel(attendee.level);
+    setCity(attendee.city);
+    setCitySearchTerm(attendee.city);
+    setView('form');
+  };
+
+  const handleDeleteAttendee = async (id: string) => {
+    if (confirm('Deseja realmente excluir este participante?')) {
+      const success = await deleteAttendee(id);
+      if (success) {
+        setAttendees(prev => prev.filter(a => a.id !== id));
+      } else {
+        alert('Erro ao excluir participante.');
+      }
     }
   };
 
@@ -224,7 +258,6 @@ const App: React.FC = () => {
             <span className="text-3xl">🎺</span>
           </div>
           <h1 className="title-font text-3xl font-bold text-slate-800">Triage Musical</h1>
-          <p className="text-slate-400">CCB - Regional</p>
         </header>
       )}
 
@@ -273,15 +306,28 @@ const App: React.FC = () => {
         {view === 'form' && (
           <div className="bg-white p-8 rounded-2xl shadow-xl border border-slate-100 animate-in slide-in-from-bottom-4 duration-300">
             <div className="flex items-center gap-4 mb-6">
-              <Button onClick={() => setView('landing')} variant="outline" className="px-2 py-2">
+              <Button
+                onClick={() => {
+                  if (editingAttendee) {
+                    setEditingAttendee(null);
+                    setView('dashboard');
+                  } else {
+                    setView('landing');
+                  }
+                }}
+                variant="outline"
+                className="px-2 py-2"
+              >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
               </Button>
-              <h2 className="text-2xl font-bold text-slate-800">Registro: {selectedRole}</h2>
+              <h2 className="text-2xl font-bold text-slate-800">
+                {editingAttendee ? 'Editar Registro' : `Registro: ${selectedRole}`}
+              </h2>
             </div>
 
             {showSuccess && (
               <div className="bg-emerald-100 text-emerald-800 p-4 rounded-xl mb-6 text-center font-bold animate-in fade-in zoom-in-95 duration-200">
-                Inscrito com sucesso!
+                {editingAttendee ? 'Atualizado com sucesso!' : 'Inscrito com sucesso!'}
               </div>
             )}
 
@@ -364,7 +410,7 @@ const App: React.FC = () => {
                 className="w-full py-5 text-xl font-bold rounded-2xl shadow-lg"
                 variant={selectedRole === Role.MUSICIAN ? 'primary' : 'secondary'}
               >
-                REGISTRAR PRESENÇA
+                {editingAttendee ? 'SALVAR ALTERAÇÕES' : 'REGISTRAR PRESENÇA'}
               </Button>
             </form>
           </div>
@@ -378,10 +424,11 @@ const App: React.FC = () => {
             onClearData={clearAllData}
             onGenerateReport={() => setView('print')}
             onPrintCities={() => setView('print-cities')}
+            onViewCities={() => setView('cities-list')}
+            onViewAttendees={() => setView('attendees-list')}
             onBack={() => setView('landing')}
           />
         )}
-
         {view === 'print' && (
           <PrintReport
             attendees={attendees}
@@ -394,6 +441,23 @@ const App: React.FC = () => {
           <CityPrint
             attendees={attendees}
             eventMeta={eventMeta}
+            onBack={() => setView('dashboard')}
+          />
+        )}
+
+        {view === 'cities-list' && (
+          <CitiesList
+            attendees={attendees}
+            onPrintCities={() => setView('print-cities')}
+            onBack={() => setView('dashboard')}
+          />
+        )}
+
+        {view === 'attendees-list' && (
+          <AttendeesList
+            attendees={attendees}
+            onEditAttendee={handleEditAttendee}
+            onDeleteAttendee={handleDeleteAttendee}
             onBack={() => setView('dashboard')}
           />
         )}

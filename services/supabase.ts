@@ -40,6 +40,22 @@ export async function addAttendee(attendee: Attendee): Promise<boolean> {
     return true;
 }
 
+export async function updateAttendee(attendee: Attendee): Promise<boolean> {
+    console.log('supabase.ts: Tentando atualizar participante:', attendee);
+    const { error } = await supabase
+        .from('attendees')
+        .update(attendee)
+        .eq('id', attendee.id);
+
+    if (error) {
+        console.error('ERRO Supabase (updateAttendee):', error.message, error.details, error.hint);
+        return false;
+    }
+
+    return true;
+}
+
+
 export async function deleteAttendee(id: string): Promise<boolean> {
     const { error } = await supabase
         .from('attendees')
