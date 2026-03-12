@@ -71,7 +71,7 @@ const App: React.FC = () => {
 
   // Salvar metadados do evento quando mudarem
   useEffect(() => {
-    if (eventMeta.local || eventMeta.anciao || eventMeta.regionais || eventMeta.palavra || eventMeta.hinos) {
+    if (eventMeta.local || eventMeta.anciao || eventMeta.regionais || eventMeta.palavra || eventMeta.hinos || eventMeta.eventTitle || eventMeta.date) {
       saveEventMetadata(eventMeta);
     }
   }, [eventMeta]);
@@ -205,19 +205,19 @@ const App: React.FC = () => {
         .print-view {
           background: white;
           color: black;
-          font-family: "Times New Roman", serif;
+          font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
           margin: 0 auto;
-          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
           border: 1px solid #e2e8f0;
           width: 29.7cm;
           height: 21cm;
           overflow: hidden;
+          position: relative;
         }
 
         .print-columns-wrapper {
           display: flex !important;
           flex-direction: row !important;
-          flex-wrap: nowrap !important;
           width: 100% !important;
           height: 100% !important;
           background: white;
@@ -226,29 +226,49 @@ const App: React.FC = () => {
         .print-column {
           flex: 0 0 33.33% !important;
           height: 100% !important;
-          padding: 1cm 0.6cm;
+          padding: 0.8cm 0.6cm;
           display: flex;
           flex-direction: column;
-          border-right: 1px solid black !important;
+          border-right: 0.5pt solid #cbd5e1 !important;
+          position: relative;
         }
 
         .print-column:last-child {
           border-right: none !important;
         }
 
-        table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
-        th, td { border: 1px solid black; padding: 4px 6px; font-size: 8.5pt; color: black; line-height: 1.2; }
-        th { font-weight: bold; text-align: left; }
+        /* Tabelas Estilizadas */
+        table { width: 100%; border-collapse: collapse; margin-bottom: 6px; }
+        th, td { border: 0.5pt solid #1e293b; padding: 2px 4px; font-size: 7.5pt; color: black; line-height: 1.1; }
+        th { font-weight: 900; text-align: left; background-color: #f1f5f9; text-transform: uppercase; font-size: 7.5pt; color: #1e293b; }
+        
+        .table-header-box { border: 1pt solid #1e293b; font-weight: 900; text-align: center; padding: 4px; margin-bottom: 15px; text-transform: uppercase; font-size: 9pt; tracking: 0.1em; color: #1e293b; }
+        .row-even { background-color: #f8fafc; }
+        .cell-qty { width: 30px; text-align: center; font-weight: 900; background-color: #f1f5f9; border-left: 1pt solid #1e293b; }
+
+        /* Tables */
+        .section-header {
+          border: 1pt solid #1e293b; font-weight: 1000; text-align: center; padding: 5pt; 
+          margin-bottom: 15pt; text-transform: uppercase; font-size: 10pt; letter-spacing: 0.1em;
+          background: white; width: 100%;
+        }
+        
+        table { width: 100%; border-collapse: collapse; margin-bottom: 10pt; }
+        th, td { border: 0.5pt solid #1e293b; padding: 3pt 5pt; font-size: 8pt; line-height: 1.1; color: black; }
+        th { background: #f1f5f9; font-weight: 900; text-transform: uppercase; font-size: 8pt; text-align: left; }
+        .qty-cell { width: 35pt; text-align: center; font-weight: 1000; background: #f8fafc; border-left: 1pt solid #1e293b; }
+        .row-alt { background: #f8fafc; }
+
+        .col-3-footer { border-top: 1pt solid #1e293b; margin-top: auto; padding-top: 5pt; display: flex; justify-content: space-between; font-size: 7.5pt; font-weight: 1000; text-transform: uppercase; }
+        .brand-italic { font-style: italic; font-weight: 500; }
 
         @media print {
           @page { margin: 0; size: A4 landscape; }
           body { background: white !important; margin: 0; padding: 0; }
           .no-print { display: none !important; }
-          .print-view { box-shadow: none !important; border: none !important; margin: 0 !important; width: 29.7cm !important; height: 21cm !important; }
+          .print-canvas { box-shadow: none !important; border: none !important; margin: 0 !important; }
           * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
-        .print-only { display: none; }
-        @media print { .print-only { display: block !important; } }
       `}</style>
 
       {/* Main UI */}

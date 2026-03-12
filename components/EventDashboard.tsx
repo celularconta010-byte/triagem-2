@@ -68,6 +68,15 @@ export const EventDashboard: React.FC<EventDashboardProps> = ({
             />
           </div>
           <div className="md:col-span-2">
+            <label className="text-xs font-bold text-slate-500 mb-1 block uppercase">Data do Evento (Ex: sexta-feira, 8 de março de 2026)</label>
+            <input
+              value={eventMeta.date}
+              onChange={e => onUpdateMeta({ ...eventMeta, date: e.target.value })}
+              className="w-full p-3 border rounded-xl bg-slate-50 focus:bg-white transition-colors"
+              placeholder="Digite a data do evento"
+            />
+          </div>
+          <div className="md:col-span-2">
             <label className="text-xs font-bold text-slate-500 mb-1 block uppercase">Local do Evento</label>
             <input
               value={eventMeta.local}
