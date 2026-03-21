@@ -144,6 +144,7 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                                 <tr><td>Examinadora</td><td className="qty-cell">{attendees.filter(a => a.ministry === Ministry.EXAMINADORA).length}</td></tr>
                                 <tr className="row-alt"><td>Instrutor</td><td className="qty-cell">{attendees.filter(a => a.level === Level.INSTRUCTOR).length}</td></tr>
                                 <tr><td>Instrutora</td><td className="qty-cell">{attendees.filter(a => a.ministry === Ministry.INSTRUTORA).length}</td></tr>
+                                <tr><td>Auxiliares</td><td className="qty-cell">{attendees.filter(a => a.role === Role.ORGANIST && a.ministry !== Ministry.EXAMINADORA && a.ministry !== Ministry.INSTRUTORA).length}</td></tr>
                                 <tr className="row-alt"><td>Secretário (a) da música</td><td className="qty-cell">2</td></tr>
                             </tbody>
                         </table>
