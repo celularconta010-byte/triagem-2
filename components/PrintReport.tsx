@@ -51,7 +51,7 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                     {/* Coluna 1: Identidade */}
                     <div className="print-column flex flex-col h-full border-r border-slate-300 pr-4">
                         <div className="mb-4 flex-1 mt-44">
-                            <h1 className="flex flex-col mb-12 text-center items-center tracking-tight leading-[0.9] w-[4cm]">
+                            <h1 className="flex flex-col mb-12 text-center items-center tracking-tight leading-[0.9] w-[7.5cm]">
                                 {(() => {
                                     const title = eventMeta.eventTitle || 'ENSAIO REGIONAL';
                                     const parts = title.split(' ');
@@ -60,9 +60,9 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                                     
                                     return (
                                         <>
-                                            <span className="text-3xl font-black uppercase text-slate-500 block">{firstWord}</span>
+                                            <span className="text-2xl font-black uppercase text-slate-500 block">{firstWord}</span>
                                             {restWords.map((word, i) => (
-                                                <span key={i} className="text-[1.7rem] font-black uppercase text-indigo-950 block mt-0.5">{word}</span>
+                                                <span key={i} className="text-[1.4rem] font-black uppercase text-indigo-950 block mt-0.5">{word}</span>
                                             ))}
                                         </>
                                     );
