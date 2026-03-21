@@ -50,7 +50,7 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                 <div className="canvas-content w-full h-full grid grid-cols-3 gap-4 p-4 z-10">
                     {/* Coluna 1: Identidade */}
                     <div className="print-column flex flex-col h-full border-r border-slate-300 pr-4 bg-[url('/fundo.png.jpeg')] bg-[length:100%_100%] bg-center bg-no-repeat">
-                        <div className="mb-4 flex-1 mt-44">
+                        <div className="mb-4 flex-1 mt-64">
                             <h1 className="flex flex-col mb-12 text-center items-center tracking-tight leading-[0.9] w-[7.5cm]">
                                 {(() => {
                                     const title = eventMeta.eventTitle || 'ENSAIO REGIONAL';
