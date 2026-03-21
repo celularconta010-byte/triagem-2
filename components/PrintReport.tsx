@@ -46,7 +46,7 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                 </div>
             </div>
 
-            <div className="print-canvas shadow-2xl h-[21cm] w-[29.7cm] mx-auto relative overflow-hidden flex bg-white bg-[url('/bg-relatorio.png')] bg-[length:100%_100%] bg-center bg-no-repeat">
+            <div className="print-canvas shadow-2xl h-[21cm] w-[29.7cm] mx-auto relative overflow-hidden flex bg-white">
                 <div className="canvas-content w-full h-full grid grid-cols-3 gap-4 p-4 z-10">
                     {/* Coluna 1: Identidade */}
                     <div className="print-column flex flex-col h-full border-r border-slate-300 pr-4">
