@@ -19,6 +19,14 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
     const organistasCount = attendees.filter(a => a.role === Role.ORGANIST).length;
     const musicosCount = attendees.filter(a => a.role === Role.MUSICIAN).length;
     const uniqueCitiesCount = new Set(attendees.map(a => a.city)).size;
+    
+    const ministeriosIrmaos = [Ministry.ANCIAO, Ministry.DIACONO, Ministry.COOPERADOR_OFICIO, Ministry.COOPERADOR_JOVENS];
+    const ministerioIrmaosCount = attendees.filter(a => ministeriosIrmaos.includes(a.ministry)).length;
+    const musicosSemMinisterioCount = attendees.filter(a => a.role === Role.MUSICIAN && !ministeriosIrmaos.includes(a.ministry)).length;
+    const auxiliaresCount = attendees.filter(a => 
+        (a.role === Role.ORGANIST && a.ministry !== Ministry.EXAMINADORA && a.ministry !== Ministry.INSTRUTORA) ||
+        (a.role === Role.MUSICIAN && (a.level === Level.AUXILIAR || (a.level === Level.MUSICIAN && a.ministry === Ministry.NONE)))
+    ).length;
 
     const registeredInstruments = [
         ...INSTRUMENT_GROUPS.Cordas,
@@ -47,10 +55,10 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
             </div>
 
             <div className="print-canvas shadow-2xl h-[21cm] w-[29.7cm] mx-auto relative overflow-hidden flex bg-white">
-                <div className="canvas-content w-full h-full grid grid-cols-3 gap-4 p-4 z-10">
+                <div className="canvas-content w-full h-full grid grid-cols-3 gap-4 p-2 z-10">
                     {/* Coluna 1: Identidade */}
                     <div className="print-column flex flex-col h-full border-r border-slate-300 pr-4 bg-[url('/fundo.png.jpeg')] bg-[length:100%_100%] bg-center bg-no-repeat">
-                        <div className="mb-4 flex-1 mt-64">
+                        <div className="mb-4 flex-1 mt-48">
                             <h1 className="flex flex-col mb-12 text-center items-center tracking-tight leading-[0.9] w-[7.5cm]">
                                 {(() => {
                                     const title = eventMeta.eventTitle || 'ENSAIO REGIONAL';
@@ -76,7 +84,11 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                                 </div>
                                 <div>
                                     <span className="block text-xs font-bold text-indigo-800 uppercase tracking-widest">Atendimento</span>
-                                    <span className="block text-xl font-bold uppercase text-indigo-950">{eventMeta.regionais || 'Não informado'}</span>
+                                    <div className="flex flex-col">
+                                        {(eventMeta.regionais || 'Não informado').split(',').map((item, i) => (
+                                            <span key={i} className="block text-xl font-bold uppercase text-indigo-950 leading-tight">{item.trim()}</span>
+                                        ))}
+                                    </div>
                                 </div>
                                 <div>
                                     <span className="block text-xs font-bold text-indigo-800 uppercase tracking-widest">Palavra</span>
@@ -85,7 +97,7 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                             </div>
                         </div>
 
-                        <div className="text-center pb-4 mt-auto">
+                        <div className="text-center pb-8 mt-auto">
                             <div className="text-xl font-bold text-indigo-950">{eventMeta.local || 'Local não informado'}</div>
                             <div className="text-md font-medium text-indigo-900 mt-1">{eventMeta.date || ''}</div>
                         </div>
@@ -132,7 +144,6 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                                 <tr className="row-alt"><td>Diáconos</td><td className="qty-cell">{attendees.filter(a => a.ministry === Ministry.DIACONO).length}</td></tr>
                                 <tr><td>Coop. do Ofício Ministerial</td><td className="qty-cell">{attendees.filter(a => a.ministry === Ministry.COOPERADOR_OFICIO).length}</td></tr>
                                 <tr className="row-alt"><td>Coop. de Jovens e Menores</td><td className="qty-cell">{attendees.filter(a => a.ministry === Ministry.COOPERADOR_JOVENS).length}</td></tr>
-                                <tr className="font-bold bg-slate-200"><td>Total do Ministério</td><td className="qty-cell">{attendees.filter(a => [Ministry.ANCIAO, Ministry.DIACONO, Ministry.COOPERADOR_OFICIO, Ministry.COOPERADOR_JOVENS].includes(a.ministry)).length}</td></tr>
                             </tbody>
                         </table>
 
@@ -144,16 +155,17 @@ export const PrintReport: React.FC<PrintReportProps> = ({ attendees, eventMeta, 
                                 <tr><td>Examinadora</td><td className="qty-cell">{attendees.filter(a => a.ministry === Ministry.EXAMINADORA).length}</td></tr>
                                 <tr className="row-alt"><td>Instrutor</td><td className="qty-cell">{attendees.filter(a => a.level === Level.INSTRUCTOR).length}</td></tr>
                                 <tr><td>Instrutora</td><td className="qty-cell">{attendees.filter(a => a.ministry === Ministry.INSTRUTORA).length}</td></tr>
-                                <tr><td>Auxiliares</td><td className="qty-cell">{attendees.filter(a => a.role === Role.ORGANIST && a.ministry !== Ministry.EXAMINADORA && a.ministry !== Ministry.INSTRUTORA).length}</td></tr>
+                                <tr><td>Auxiliares</td><td className="qty-cell">{auxiliaresCount}</td></tr>
                                 <tr className="row-alt"><td>Secretário (a) da música</td><td className="qty-cell">2</td></tr>
                             </tbody>
                         </table>
 
                         <table className="mb-4">
-                            <thead><tr><th>Orquestra</th><th className="qty-cell">Qtd.</th></tr></thead>
+                            <thead><tr><th>Total</th><th className="qty-cell">Qtd.</th></tr></thead>
                             <tbody>
-                                <tr><td>Músicos</td><td className="qty-cell">{musicosCount}</td></tr>
-                                <tr className="row-alt"><td>Organistas</td><td className="qty-cell">{organistasCount}</td></tr>
+                                <tr><td>Ministério</td><td className="qty-cell">{ministerioIrmaosCount}</td></tr>
+                                <tr className="row-alt"><td>Músicos</td><td className="qty-cell">{musicosSemMinisterioCount}</td></tr>
+                                <tr><td>Organistas</td><td className="qty-cell">{organistasCount}</td></tr>
                                 <tr className="font-bold bg-slate-200"><td>Total Geral</td><td className="qty-cell">{attendees.length}</td></tr>
                             </tbody>
                         </table>

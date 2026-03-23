@@ -11,6 +11,29 @@ import { fetchAttendees, addAttendee, updateAttendee, deleteAttendee, clearAllAt
 
 const App: React.FC = () => {
   const [view, setView] = useState<ViewState>('landing');
+  
+  // Sincronizar view com o estado do histórico (ajuda o botão "voltar" do Android/Browser)
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      if (event.state && event.state.view) {
+        setView(event.state.view);
+      } else {
+        setView('landing');
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  // Função para mudar a view e atualizar o histórico
+  const navigateTo = (newView: ViewState) => {
+    if (newView !== view) {
+      window.history.pushState({ view: newView }, '', '');
+      setView(newView);
+    }
+  };
+
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [attendees, setAttendees] = useState<Attendee[]>([]);
   const [ministry, setMinistry] = useState<Ministry>(Ministry.NONE);
@@ -27,7 +50,7 @@ const App: React.FC = () => {
   const cityDropdownRef = useRef<HTMLDivElement>(null);
 
   const initialMeta: EventMetadata = {
-    eventTitle: 'Ensaio Regional',
+    eventTitle: 'Triagem Reunião',
     local: '',
     date: new Date().toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
     anciao: '',
@@ -94,7 +117,7 @@ const App: React.FC = () => {
     setLevel(Level.NONE);
     setCity('');
     setCitySearchTerm('');
-    setView('form');
+    navigateTo('form');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -226,7 +249,7 @@ const App: React.FC = () => {
         .print-column {
           flex: 0 0 33.33% !important;
           height: 100% !important;
-          padding: 0.8cm 0.6cm;
+          padding: 0.4cm 0.4cm;
           display: flex;
           flex-direction: column;
           border-right: 0.5pt solid #cbd5e1 !important;
@@ -277,7 +300,7 @@ const App: React.FC = () => {
           <div className="bg-white p-3 rounded-full shadow-sm mb-4">
             <span className="text-3xl">🎺</span>
           </div>
-          <h1 className="title-font text-3xl font-bold text-slate-800">Triagem Musical</h1>
+          <h1 className="title-font text-3xl font-bold text-slate-800">Triagem Reunião</h1>
         </header>
       )}
 
@@ -318,7 +341,7 @@ const App: React.FC = () => {
                 <h4 className="font-bold text-slate-800">Painel do Evento</h4>
                 <p className="text-sm text-slate-500">{attendees.length} presentes registrados</p>
               </div>
-              <Button onClick={() => setView('dashboard')} variant="outline">Configurar e Relatórios</Button>
+              <Button onClick={() => navigateTo('dashboard')} variant="outline">Configurar e Relatórios</Button>
             </div>
           </div>
         )}
@@ -330,9 +353,9 @@ const App: React.FC = () => {
                 onClick={() => {
                   if (editingAttendee) {
                     setEditingAttendee(null);
-                    setView('dashboard');
+                    navigateTo('dashboard');
                   } else {
-                    setView('landing');
+                    navigateTo('landing');
                   }
                 }}
                 variant="outline"
@@ -362,7 +385,7 @@ const App: React.FC = () => {
                   className="w-full p-4 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none appearance-none"
                 >
                   {(selectedRole === Role.ORGANIST
-                    ? [Ministry.NONE, Ministry.EXAMINADORA, Ministry.INSTRUTORA, Ministry.ORGANISTA]
+                    ? [Ministry.NONE, Ministry.EXAMINADORA, Ministry.INSTRUTORA, Ministry.AUXILIAR, Ministry.ORGANISTA]
                     : [Ministry.NONE, Ministry.ANCIAO, Ministry.DIACONO, Ministry.COOPERADOR_OFICIO, Ministry.COOPERADOR_JOVENS]
                   ).map(m => <option key={m} value={m}>{m}</option>)}
                 </select>
@@ -442,18 +465,18 @@ const App: React.FC = () => {
             eventMeta={eventMeta}
             onUpdateMeta={setEventMeta}
             onClearData={clearAllData}
-            onGenerateReport={() => setView('print')}
-            onPrintCities={() => setView('print-cities')}
-            onViewCities={() => setView('cities-list')}
-            onViewAttendees={() => setView('attendees-list')}
-            onBack={() => setView('landing')}
+            onGenerateReport={() => navigateTo('print')}
+            onPrintCities={() => navigateTo('print-cities')}
+            onViewCities={() => navigateTo('cities-list')}
+            onViewAttendees={() => navigateTo('attendees-list')}
+            onBack={() => navigateTo('landing')}
           />
         )}
         {view === 'print' && (
           <PrintReport
             attendees={attendees}
             eventMeta={eventMeta}
-            onBack={() => setView('dashboard')}
+            onBack={() => navigateTo('dashboard')}
           />
         )}
 
@@ -461,15 +484,15 @@ const App: React.FC = () => {
           <CityPrint
             attendees={attendees}
             eventMeta={eventMeta}
-            onBack={() => setView('dashboard')}
+            onBack={() => navigateTo('dashboard')}
           />
         )}
 
         {view === 'cities-list' && (
           <CitiesList
             attendees={attendees}
-            onPrintCities={() => setView('print-cities')}
-            onBack={() => setView('dashboard')}
+            onPrintCities={() => navigateTo('print-cities')}
+            onBack={() => navigateTo('dashboard')}
           />
         )}
 
@@ -478,7 +501,7 @@ const App: React.FC = () => {
             attendees={attendees}
             onEditAttendee={handleEditAttendee}
             onDeleteAttendee={handleDeleteAttendee}
-            onBack={() => setView('dashboard')}
+            onBack={() => navigateTo('dashboard')}
           />
         )}
       </main>
@@ -486,7 +509,7 @@ const App: React.FC = () => {
       {view !== 'landing' && view !== 'print' && (
         <div className="fixed bottom-6 right-6 no-print">
           <Button
-            onClick={() => setView('landing')}
+            onClick={() => navigateTo('landing')}
             className="w-14 h-14 rounded-full flex items-center justify-center p-0 shadow-2xl bg-indigo-600 text-white"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>

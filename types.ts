@@ -9,6 +9,7 @@ export enum Level {
   REGIONAL = 'Encarregado Regional',
   LOCAL = 'Encarregado Local',
   INSTRUCTOR = 'Instrutor',
+  AUXILIAR = 'Auxiliar',
   MUSICIAN = 'Músico'
 }
 
@@ -20,6 +21,7 @@ export enum Ministry {
   COOPERADOR_JOVENS = 'Coop. de Jovens e Menores',
   EXAMINADORA = 'Examinadora',
   INSTRUTORA = 'Instrutora',
+  AUXILIAR = 'Auxiliar',
   ORGANISTA = 'Organista'
 }
 

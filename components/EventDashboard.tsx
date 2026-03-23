@@ -94,11 +94,20 @@ export const EventDashboard: React.FC<EventDashboardProps> = ({
             />
           </div>
           <div>
-            <label className="text-xs font-bold text-slate-500 mb-1 block">ENCARREGADOS REGIONAIS</label>
+            <div className="flex items-center gap-2 mb-1">
+              <label className="text-xs font-bold text-slate-500 uppercase">Encarregados Regionais</label>
+              <div className="group relative">
+                <div className="w-4 h-4 bg-slate-200 text-slate-500 rounded-full flex items-center justify-center text-[10px] cursor-help font-bold">i</div>
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-slate-800 text-white text-[10px] rounded shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center leading-tight">
+                  Para um nome ficar abaixo do outro precisa separar com vírgulas. A vírgula não aparecerá na impressão final.
+                </div>
+              </div>
+            </div>
             <input
               value={eventMeta.regionais}
               onChange={e => onUpdateMeta({ ...eventMeta, regionais: e.target.value })}
               className="w-full p-3 border rounded-xl"
+              placeholder="Ex: João Silva, Maria Souza"
             />
           </div>
           <div className="md:col-span-2">
